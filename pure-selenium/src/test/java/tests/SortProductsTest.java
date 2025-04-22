@@ -13,7 +13,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import java.util.Collections;
 import java.util.List;
 
-public class SortProductsTest extends AbstractTest{
+public class SortProductsTest extends AbstractTest {
 
     @Test
     public void testSortByPriceHighToLow() {
