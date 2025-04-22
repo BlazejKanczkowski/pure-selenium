@@ -5,6 +5,8 @@ import org.example.pages.LoginPage;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.util.List;
+
 public class AddToCartTest extends AbstractTest {
 
     @Test
@@ -16,7 +18,7 @@ public class AddToCartTest extends AbstractTest {
         InventoryPage inventoryPage = new InventoryPage(driver);
         Assert.assertTrue(inventoryPage.isPageDisplayed(), "Inventory page should be visible after login");
 
-        inventoryPage.addProductToCartByName("Sauce Labs Backpack");
+        inventoryPage.addProductsToCart(List.of("Sauce Labs Backpack"));
 
         int count = inventoryPage.getCartCount();
         Assert.assertEquals(count, 1, "Expected cart count to be 1 but was: " + count);

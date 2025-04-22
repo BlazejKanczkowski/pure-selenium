@@ -1,6 +1,7 @@
 package org.example.pages;
 
-import org.openqa.selenium.By;
+import org.example.components.ProductComponent;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import org.example.enums.SortOption;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -32,20 +34,26 @@ public class InventoryPage extends AbstractPage{
     @FindBy(className = "product_sort_container")
     private WebElement sortDropdown;
 
-    @FindBy(className = "inventory_item_price")
-    private List<WebElement> productPrices;
+    @FindBy(className = "inventory_item")
+    private List<WebElement> productElements;
+
+    public InventoryPage(WebDriver driver) {
+        super(driver);
+    }
 
     public void sortBy(SortOption option) {
         Select select = new Select(sortDropdown);
         select.selectByVisibleText(option.getVisibleText());
     }
 
-    public java.util.List<Double> getDisplayedPrices() {
-        return productPrices.stream()
-                .map(WebElement::getText)
-                .map(price -> price.replace("$", ""))
-                .map(Double::parseDouble)
-                .toList();
+    public List<Double> getDisplayedPrices() {
+        List<Double> prices = new ArrayList<>();
+        for (WebElement element : productElements) {
+            ProductComponent product = new ProductComponent(driver, element);
+            String priceText = product.getPrice().replace("$", "");
+            prices.add(Double.parseDouble(priceText));
+        }
+        return prices;
     }
 
     public CartPage clickCartIcon() {
@@ -54,9 +62,13 @@ public class InventoryPage extends AbstractPage{
     }
 
     public void addProductToCartByName(String productName) {
-        String buttonId = "add-to-cart-" + productName.toLowerCase().replace(" ", "-");
-        WebElement addButton = driver.findElement(By.id(buttonId));
-        addButton.click();
+        for (WebElement element : productElements) {
+            ProductComponent product = new ProductComponent(driver, element);
+            if (product.getName().equalsIgnoreCase(productName)) {
+                product.clickAddToCart();
+                break;
+            }
+        }
     }
 
     public int getCartCount() {
@@ -74,11 +86,13 @@ public class InventoryPage extends AbstractPage{
                 .click();
     }
 
-    public InventoryPage(WebDriver driver) {
-        super(driver);
-    }
-
     public boolean isPageDisplayed() {
         return pageTitle.isDisplayed();
+    }
+
+    public void addProductsToCart(List<String> productNames) {
+        for (String name : productNames) {
+            addProductToCartByName(name);
+        }
     }
 }
