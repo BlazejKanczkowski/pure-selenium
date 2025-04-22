@@ -6,7 +6,6 @@ import org.openqa.selenium.support.FindBy;
 
 public class CheckoutPage extends AbstractPage{
 
-
     @FindBy(id = "first-name")
     private WebElement firstNameField;
 

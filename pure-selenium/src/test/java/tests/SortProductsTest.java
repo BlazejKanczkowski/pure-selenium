@@ -1,5 +1,6 @@
 package tests;
 
+import org.example.enums.SortOption;
 import org.example.pages.InventoryPage;
 import org.example.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
@@ -23,7 +24,7 @@ public class SortProductsTest extends AbstractTest{
         InventoryPage inventoryPage = new InventoryPage(driver);
         Assert.assertTrue(inventoryPage.isPageDisplayed(), "Inventory page should be visible");
 
-        inventoryPage.sortByPriceHighToLow();
+        inventoryPage.sortBy(SortOption.PRICE_HIGH_TO_LOW);
 
         List<Double> actualPrices = inventoryPage.getDisplayedPrices();
         List<Double> sortedPrices = actualPrices.stream().sorted(Collections.reverseOrder()).toList();

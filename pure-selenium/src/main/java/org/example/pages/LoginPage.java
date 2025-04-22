@@ -3,7 +3,6 @@ package org.example.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends AbstractPage{
 
@@ -35,10 +34,11 @@ public class LoginPage extends AbstractPage{
         driver.get("https://www.saucedemo.com/");
     }
 
-    public void login(String username, String password) {
+    public InventoryPage login(String username, String password) {
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
         loginButton.click();
+        return new InventoryPage(driver);
     }
 
     public boolean isLoginButtonDisplayed() {

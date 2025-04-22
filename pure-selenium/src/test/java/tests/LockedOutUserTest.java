@@ -1,15 +1,10 @@
 package tests;
 
 import org.example.pages.LoginPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 public class LockedOutUserTest extends AbstractTest{
-
 
     @Test
     public void testLoginWithLockedOutUser() {
@@ -21,5 +16,4 @@ public class LockedOutUserTest extends AbstractTest{
         Assert.assertTrue(loginPage.getErrorMessageText().toLowerCase().contains("locked out"),
                 "Error message should mention user is locked out");
     }
-
 }

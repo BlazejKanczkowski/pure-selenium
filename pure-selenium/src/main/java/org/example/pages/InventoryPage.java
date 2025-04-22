@@ -1,15 +1,20 @@
 package org.example.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+
+import java.time.Duration;
+import java.util.List;
+import org.example.enums.SortOption;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class InventoryPage extends AbstractPage{
 
-
-    @FindBy(xpath = "//span[text()='Products']")
+    @FindBy(xpath = "//span[contains(@data-test,'title')]")
     private WebElement pageTitle;
 
     @FindBy(id = "react-burger-menu-btn")
@@ -18,14 +23,8 @@ public class InventoryPage extends AbstractPage{
     @FindBy(id = "logout_sidebar_link")
     private WebElement logoutLink;
 
-    @FindBy(id = "add-to-cart-sauce-labs-backpack")
-    private WebElement addToCartButton;
-
     @FindBy(className = "shopping_cart_badge")
     private WebElement cartBadge;
-
-    @FindBy(id = "add-to-cart-sauce-labs-bike-light")
-    private WebElement addBikeLightToCartButton;
 
     @FindBy(className = "shopping_cart_link")
     private WebElement cartIcon;
@@ -34,11 +33,11 @@ public class InventoryPage extends AbstractPage{
     private WebElement sortDropdown;
 
     @FindBy(className = "inventory_item_price")
-    private java.util.List<WebElement> productPrices;
+    private List<WebElement> productPrices;
 
-    public void sortByPriceHighToLow() {
+    public void sortBy(SortOption option) {
         Select select = new Select(sortDropdown);
-        select.selectByVisibleText("Price (high to low)");
+        select.selectByVisibleText(option.getVisibleText());
     }
 
     public java.util.List<Double> getDisplayedPrices() {
@@ -49,17 +48,15 @@ public class InventoryPage extends AbstractPage{
                 .toList();
     }
 
-
-    public void clickCartIcon() {
+    public CartPage clickCartIcon() {
         cartIcon.click();
+        return new CartPage(driver);
     }
 
-    public void addBikeLightToCart() {
-        addBikeLightToCartButton.click();
-    }
-
-    public void addBackpackToCart() {
-        addToCartButton.click();
+    public void addProductToCartByName(String productName) {
+        String buttonId = "add-to-cart-" + productName.toLowerCase().replace(" ", "-");
+        WebElement addButton = driver.findElement(By.id(buttonId));
+        addButton.click();
     }
 
     public int getCartCount() {
@@ -72,12 +69,9 @@ public class InventoryPage extends AbstractPage{
 
     public void logout() {
         menuButton.click();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        logoutLink.click();
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(logoutLink))
+                .click();
     }
 
     public InventoryPage(WebDriver driver) {

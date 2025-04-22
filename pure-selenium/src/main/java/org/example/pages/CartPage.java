@@ -3,11 +3,8 @@ package org.example.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class CartPage extends AbstractPage {
-
-
 
     @FindBy(id = "checkout")
     private WebElement checkoutButton;
@@ -16,7 +13,8 @@ public class CartPage extends AbstractPage {
         super(driver);
     }
 
-    public void clickCheckout() {
+    public CheckoutPage clickCheckout() {
         checkoutButton.click();
+        return new CheckoutPage(driver);
     }
 }

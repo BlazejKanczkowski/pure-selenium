@@ -4,12 +4,8 @@ import org.example.pages.CartPage;
 import org.example.pages.CheckoutPage;
 import org.example.pages.InventoryPage;
 import org.example.pages.LoginPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class CheckoutTest extends AbstractTest{
 
@@ -22,13 +18,11 @@ public class CheckoutTest extends AbstractTest{
         InventoryPage inventoryPage = new InventoryPage(driver);
         Assert.assertTrue(inventoryPage.isPageDisplayed(), "Inventory page should be visible");
 
-        inventoryPage.addBackpackToCart();
-        inventoryPage.clickCartIcon();
+        inventoryPage.addProductToCartByName("Sauce Labs Backpack");
 
-        CartPage cartPage = new CartPage(driver);
-        cartPage.clickCheckout();
+        CartPage cartPage = inventoryPage.clickCartIcon();
+        CheckoutPage checkoutPage = cartPage.clickCheckout();
 
-        CheckoutPage checkoutPage = new CheckoutPage(driver);
         checkoutPage.fillForm("John", "Doe", "12345");
         checkoutPage.finishOrder();
 

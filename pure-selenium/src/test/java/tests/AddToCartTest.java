@@ -2,12 +2,8 @@ package tests;
 
 import org.example.pages.InventoryPage;
 import org.example.pages.LoginPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class AddToCartTest extends AbstractTest {
 
@@ -20,7 +16,7 @@ public class AddToCartTest extends AbstractTest {
         InventoryPage inventoryPage = new InventoryPage(driver);
         Assert.assertTrue(inventoryPage.isPageDisplayed(), "Inventory page should be visible after login");
 
-        inventoryPage.addBackpackToCart();
+        inventoryPage.addProductToCartByName("Sauce Labs Backpack");
 
         int count = inventoryPage.getCartCount();
         Assert.assertEquals(count, 1, "Expected cart count to be 1 but was: " + count);
