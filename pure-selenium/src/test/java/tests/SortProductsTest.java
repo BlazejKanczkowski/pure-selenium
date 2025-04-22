@@ -1,0 +1,34 @@
+package tests;
+
+import org.example.pages.InventoryPage;
+import org.example.pages.LoginPage;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.*;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+import java.util.Collections;
+import java.util.List;
+
+public class SortProductsTest extends AbstractTest{
+
+    @Test
+    public void testSortByPriceHighToLow() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.open();
+        loginPage.login("standard_user", "secret_sauce");
+
+        InventoryPage inventoryPage = new InventoryPage(driver);
+        Assert.assertTrue(inventoryPage.isPageDisplayed(), "Inventory page should be visible");
+
+        inventoryPage.sortByPriceHighToLow();
+
+        List<Double> actualPrices = inventoryPage.getDisplayedPrices();
+        List<Double> sortedPrices = actualPrices.stream().sorted(Collections.reverseOrder()).toList();
+
+        Assert.assertEquals(actualPrices, sortedPrices, "Products are not sorted from high to low by price");
+    }
+
+}
