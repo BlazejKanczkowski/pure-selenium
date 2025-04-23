@@ -1,7 +1,6 @@
 package org.example.pages;
 
-import org.example.components.ProductComponent;
-import org.openqa.selenium.NoSuchElementException;
+import org.example.components.ProductListItemComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -49,7 +48,7 @@ public class InventoryPage extends AbstractPage{
     public List<Double> getDisplayedPrices() {
         List<Double> prices = new ArrayList<>();
         for (WebElement element : productElements) {
-            ProductComponent product = new ProductComponent(driver, element);
+            ProductListItemComponent product = new ProductListItemComponent(driver, element);
             String priceText = product.getPrice().replace("$", "");
             prices.add(Double.parseDouble(priceText));
         }
@@ -63,7 +62,7 @@ public class InventoryPage extends AbstractPage{
 
     public void addProductToCartByName(String productName) {
         for (WebElement element : productElements) {
-            ProductComponent product = new ProductComponent(driver, element);
+            ProductListItemComponent product = new ProductListItemComponent(driver, element);
             if (product.getName().equalsIgnoreCase(productName)) {
                 product.clickAddToCart();
                 break;

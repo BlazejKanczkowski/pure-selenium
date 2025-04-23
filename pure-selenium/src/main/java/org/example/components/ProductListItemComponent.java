@@ -4,11 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class ProductComponent {
+public class ProductListItemComponent {
 
     private final WebElement root;
 
-    public ProductComponent(WebDriver driver, WebElement root) {
+    public ProductListItemComponent(WebDriver driver, WebElement root) {
         this.root = root;
     }
 
