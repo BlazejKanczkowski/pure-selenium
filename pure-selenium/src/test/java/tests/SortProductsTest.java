@@ -3,13 +3,8 @@ package tests;
 import org.example.enums.SortOption;
 import org.example.pages.InventoryPage;
 import org.example.pages.LoginPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 import java.util.Collections;
 import java.util.List;
 
